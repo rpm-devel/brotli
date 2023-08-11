@@ -107,7 +107,7 @@ done
 %{_mandir}/man3/*
 
 %changelog
-* Tue Mar 13 2018 CasjaysDev <rpm@casjaysdev.com> - 1.0.3-1
+* Tue Mar 13 2018 CasjaysDev <rpm@casjaysdev.pro> - 1.0.3-1
 - rebuilt for CentOS
 
 #* Fri Mar 03 2018 Travis Kendrick <pouar@pouar.net> - 1.0.3-1

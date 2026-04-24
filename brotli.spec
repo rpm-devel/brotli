@@ -1,14 +1,15 @@
 #
 Name:           brotli
-Version:        1.0.3
+Version:        1.2.0
 Release:        1%{?dist}
 Summary:        Lossless compression algorithm
 
 License:        MIT
 URL:            https://github.com/google/brotli
-Source0:        https://github.com/google/brotli/archive/v%{version}.tar.gz
+Source0:        https://github.com/google/brotli/archive/v%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  python2-devel gcc-c++ gcc cmake python3-rpm-macros python-rpm-macros
+BuildRequires:  python%{python3_pkgversion}-devel gcc-c++ gcc cmake python3-rpm-macros
+Obsoletes:      brotli < %{version}-%{release}
 
 %description
 Brotli is a generic-purpose lossless compression algorithm that compresses
@@ -17,23 +18,24 @@ coding and 2nd order context modeling, with a compression ratio comparable
 to the best currently available general-purpose compression methods.
 It is similar in speed with deflate but offers more dense compression.
 
-%package -n python2-%{name}
-Summary:        Lossless compression algorithm (python 2)
-Requires: python2
-%{?python_provide:%python_provide python2-%{name}}
+%package -n python3-%{name}
+Summary:        Lossless compression algorithm (python 3)
+Requires: python3
+%{?python_provide:%python_provide python3-%{name}}
 
-%description -n python2-%{name}
+%description -n python3-%{name}
 Brotli is a generic-purpose lossless compression algorithm that compresses
 data using a combination of a modern variant of the LZ77 algorithm, Huffman
 coding and 2nd order context modeling, with a compression ratio comparable
 to the best currently available general-purpose compression methods.
 It is similar in speed with deflate but offers more dense compression.
-This package installs a Python 2 module.
+This package installs a Python 3 module.
 
 
 %package -n %{name}-devel
 Summary:        Lossless compression algorithm (development files)
-Requires: %{name}%{?_isa} = %{version}-%{release} 
+Requires: %{name}%{?_isa} = %{version}-%{release}
+Obsoletes: brotli-devel < %{version}-%{release}
 
 %description -n %{name}-devel
 Brotli is a generic-purpose lossless compression algorithm that compresses
@@ -59,7 +61,7 @@ cd build
     -DCMAKE_INSTALL_LIBDIR="%{_libdir}"
 %make_build
 cd ..
-%py2_build
+%py3_build
 
 %install
 cd build
@@ -69,12 +71,7 @@ cd build
 %__rm "%{buildroot}%{_libdir}/"*.a
 
 cd ..
-# Must do the python2 install first because the scripts in /usr/bin are
-# overwritten with every setup.py install, and in general we want the
-# python3 version to be the default. If, however, we're installing separate
-# executables for python2 and python3, the order needs to be reversed so
-# the unversioned executable is the python2 one.
-%py2_install
+%py3_install
 %{__install} -dm755 "%{buildroot}%{_mandir}/man3"
 cd docs
 for i in *.3;do
@@ -96,8 +93,8 @@ done
 
 # Note that there is no %%files section for the unversioned python module
 # if we are building for several python runtimes
-%files -n python2-%{name}
-%{python2_sitearch}/*
+%files -n python3-%{name}
+%{python3_sitearch}/*
 %license LICENSE
 
 %files -n %{name}-devel
@@ -107,6 +104,10 @@ done
 %{_mandir}/man3/*
 
 %changelog
+* Fri Apr 24 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 1.2.0-1
+- Update to 1.2.0
+- Modernize spec for EL10
+
 * Tue Mar 13 2018 CasjaysDev <rpm@casjaysdev.pro> - 1.0.3-1
 - rebuilt for CentOS
 

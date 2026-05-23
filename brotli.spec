@@ -68,7 +68,7 @@ cd build
 %make_install
 
 # I couldn't find the option to not build the static libraries
-%__rm "%{buildroot}%{_libdir}/"*.a
+%{__rm} "%{buildroot}%{_libdir}/"*.a
 
 cd ..
 %py3_install
@@ -104,6 +104,9 @@ done
 %{_mandir}/man3/*
 
 %changelog
+* Fri May 22 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 1.2.0-1
+- Fix deprecated %__rm macro to %{__rm}
+
 * Fri Apr 24 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 1.2.0-1
 - Update to 1.2.0
 - Modernize spec for EL10

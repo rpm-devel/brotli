@@ -6,6 +6,7 @@ Summary:        Lossless compression algorithm
 
 License:        MIT
 URL:            https://github.com/google/brotli
+ExclusiveArch:  x86_64 aarch64
 Source0:        https://github.com/google/brotli/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  python%{python3_pkgversion}-devel gcc-c++ gcc cmake python3-rpm-macros
@@ -46,7 +47,7 @@ It is similar in speed with deflate but offers more dense compression.
 This package installs the development files
 
 %prep
-%autosetup
+%autosetup -p1
 # fix permissions for -debuginfo
 # rpmlint will complain if I create an extra %%files section for
 # -debuginfo for this so we'll put it here instead
@@ -78,7 +79,7 @@ for i in *.3;do
 %{__install} -m644 "$i" "%{buildroot}%{_mandir}/man3/${i}brotli"
 done
 
-#%ldconfig_scriptlets
+%ldconfig_scriptlets
 
 %check
 #cd build
@@ -104,6 +105,10 @@ done
 %{_mandir}/man3/*
 
 %changelog
+* Thu Jul 03 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 1.2.0-1
+- Source0: GitHub archive URL verified (1.2.0 is current)
+- ExclusiveArch: x86_64 aarch64; %%autosetup -p1; %%ldconfig_scriptlets
+
 * Fri May 22 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 1.2.0-1
 - Fix deprecated %__rm macro to %{__rm}
 
